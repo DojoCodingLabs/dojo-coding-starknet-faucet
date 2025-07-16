@@ -70,7 +70,7 @@ export default function WalletConnection() {
           </div>
           
           <h3 className="text-2xl font-bold text-neutral-800 mb-3">Starknet Sepolia STRK Faucet</h3>
-          <p className="text-neutral-600 mb-6">5 STRK / 24 hrs</p>
+          <p className="text-neutral-600 mb-6">10 STRK / 24 hrs</p>
 
           
           <button

@@ -10,11 +10,11 @@ export default function Home() {
   const { isConnected } = useStarknet()
 
   return (
-    <div className="min-h-screen bg-gradient-light">
+    <div className="min-h-screen bg-gradient-light flex flex-col">
       {/* <Header /> */}
 
       {/* Main Application */}
-      <section className="relative">
+      <section className="flex-1 flex items-center justify-center">
         <div className="container mx-auto px-4 py-16 max-w-2xl">
           <div className="space-y-8">
             {/* Wallet Connection */}

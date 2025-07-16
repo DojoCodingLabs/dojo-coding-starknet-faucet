@@ -1,5 +1,5 @@
 // Faucet Contract Configuration
-export const FAUCET_CONTRACT_ADDRESS = "0x0086465e755455e39b42c09f583a6cbca9d3be8b67f1a7ec55cd71e64a04e644"; // Replace with actual deployed address
+export const FAUCET_CONTRACT_ADDRESS = "0x06ee9dd3a4cc33d35dd172495075f8787b8876eaaa221d664ba8793066b59a12"; // Replace with actual deployed address
 
 // ABI for the Faucet contract based on the IFaucet interface
 export const FAUCET_ABI = [
