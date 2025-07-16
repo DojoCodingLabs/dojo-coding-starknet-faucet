@@ -5,6 +5,7 @@ import { useStarknet } from '@/components/providers/StarknetProvider'
 import { Contract, RpcProvider } from 'starknet'
 import { FAUCET_CONTRACT_ADDRESS, FAUCET_ABI, type FaucetInfo } from '@/lib/contract'
 import toast from 'react-hot-toast'
+import Image from 'next/image'
 
 export default function FaucetClaim() {
   const { account, address, isConnected } = useStarknet()
@@ -144,7 +145,7 @@ export default function FaucetClaim() {
   const canClaim = faucetInfo.userUnlockTime === BigInt(0) || Number(faucetInfo.userUnlockTime) <= currentTime
   const timeRemaining = canClaim ? 0 : Number(faucetInfo.userUnlockTime) - currentTime
 
-  const formatWei = (wei: bigint) => {
+  const formatSTRK = (wei: bigint) => {
     return (Number(wei) / 10**18).toFixed(4)
   }
 
@@ -157,19 +158,28 @@ export default function FaucetClaim() {
   return (
     <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 overflow-hidden">
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Faucet</h2>
-        <p className="text-gray-600">Claim free tokens from the faucet</p>
+        <div className="flex items-center space-x-3 mb-2">
+            <Image src="/strk-logo.svg" alt="STRK Logo" width={40} height={40} />
+            <h2 className="text-2xl font-bold text-gray-900">STRK Faucet</h2>
+          </div>
+          <p className="text-gray-600">Claim free STRK tokens from the faucet</p>
       </div>
       
       <div className="p-6 space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-gray-50 rounded-lg p-4">
-            <p className="text-sm text-gray-600 mb-1">Withdrawal Amount</p>
-            <p className="text-lg font-semibold text-gray-900">{formatWei(faucetInfo.withdrawalAmount)} ETH</p>
+            <div className="flex items-center space-x-2 mb-1">
+                <Image src="/strk-logo.svg" alt="STRK" width={20} height={20} />
+                <p className="text-sm text-gray-600">Withdrawal Amount</p>
+              </div>
+            <p className="text-lg font-semibold text-gray-900">{formatSTRK(faucetInfo.withdrawalAmount)} STRK</p>
           </div>
           <div className="bg-gray-50 rounded-lg p-4">
-            <p className="text-sm text-gray-600 mb-1">Faucet Balance</p>
-            <p className="text-lg font-semibold text-gray-900">{formatWei(faucetInfo.faucetBalance)} ETH</p>
+            <div className="flex items-center space-x-2 mb-1">
+                <Image src="/strk-logo.svg" alt="STRK" width={20} height={20} />
+                <p className="text-sm text-gray-600">Faucet Balance</p>
+              </div>
+            <p className="text-lg font-semibold text-gray-900">{formatSTRK(faucetInfo.faucetBalance)} STRK</p>
           </div>
         </div>
 
@@ -200,7 +210,10 @@ export default function FaucetClaim() {
               <span>Claiming...</span>
             </div>
           ) : (
-            'Claim Tokens'
+            <div className="flex items-center justify-center space-x-2">
+              <Image src="/strk-logo.svg" alt="STRK" width={24} height={24} />
+              <span>Claim STRK Tokens</span>
+            </div>
           )}
         </button>
       </div>

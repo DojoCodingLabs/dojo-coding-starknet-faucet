@@ -25,11 +25,11 @@ Un faucet simple y elegante para distribuir tokens Fernet Branca en la red Stark
 
 ### 1. Clonar e instalar dependencias
 
-```bash
+   ```bash
 git clone <your-repo>
 cd faucet/frontend
-npm install
-```
+   npm install
+   ```
 
 ### 2. Configurar el contrato
 
