@@ -104,7 +104,6 @@ export default function FaucetClaim() {
     return (
       <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-white/60 p-8 text-center">
         <h2 className="text-2xl font-bold text-neutral-800 mb-4">Connect Your Wallet</h2>
-        <p className="text-neutral-600">Please connect your wallet to use the faucet</p>
       </div>
     )
   }
@@ -143,7 +142,13 @@ export default function FaucetClaim() {
   const timeRemaining = canClaim ? 0 : Number(faucetInfo.userUnlockTime) - currentTime
 
   const formatSTRK = (wei: bigint) => {
-    return (Number(wei) / 10**18).toFixed(4)
+    const value = Number(wei) / 10**18
+    // Si es un número entero, no mostrar decimales
+    if (value % 1 === 0) {
+      return value.toString()
+    }
+    // Si tiene decimales, mostrar hasta 4 decimales pero eliminar ceros al final
+    return parseFloat(value.toFixed(4)).toString()
   }
 
   const formatTimeRemaining = (seconds: number) => {

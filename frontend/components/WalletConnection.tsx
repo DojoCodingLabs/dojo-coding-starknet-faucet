@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { useStarknet } from '@/components/providers/StarknetProvider'
 import toast from 'react-hot-toast'
+import Image from 'next/image'
 
 export default function WalletConnection() {
   const { address, isConnected, connect, disconnect } = useStarknet()
@@ -65,12 +66,10 @@ export default function WalletConnection() {
       <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-white/60 overflow-hidden">
         <div className="p-8 text-center">
           <div className="w-20 h-20 bg-gradient-to-r from-primary-400 to-secondary-400 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-md">
-            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
+            <Image src="/strk-logo.svg" alt="STRK Logo" width={40} height={40} />
           </div>
           
-          <h3 className="text-2xl font-bold text-neutral-800 mb-3">Connect Your Wallet</h3>
+          <h3 className="text-2xl font-bold text-neutral-800 mb-3">Starknet Sepolia STRK Faucet</h3>
 
           
           <button
@@ -92,41 +91,18 @@ export default function WalletConnection() {
                   <path
                     className="opacity-75"
                     fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    d="M4 12a8 8 0 818-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   />
                 </svg>
                 <span>Connecting...</span>
               </div>
             ) : (
               <div className="flex items-center justify-center space-x-2">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+                <Image src="/strk-logo.svg" alt="STRK" width={20} height={20} />
                 <span>Connect Wallet</span>
               </div>
             )}
           </button>
-          
-          <div className="mt-6 flex items-center justify-center space-x-6 text-sm text-neutral-500">
-            <div className="flex items-center space-x-2">
-              <div className="w-6 h-6 bg-orange-100 rounded-lg flex items-center justify-center">
-                <span className="text-orange-600 font-bold text-xs">A</span>
-              </div>
-              <span>Argent X</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-6 h-6 bg-blue-100 rounded-lg flex items-center justify-center">
-                <span className="text-blue-600 font-bold text-xs">B</span>
-              </div>
-              <span>Braavos</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-6 h-6 bg-neutral-100 rounded-lg flex items-center justify-center">
-                <span className="text-neutral-600 font-bold text-xs">+</span>
-              </div>
-              <span>More</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
