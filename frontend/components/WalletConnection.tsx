@@ -65,11 +65,12 @@ export default function WalletConnection() {
     <div className="max-w-md mx-auto">
       <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-white/60 overflow-hidden">
         <div className="p-8 text-center">
-          <div className="w-20 h-20 bg-gradient-to-r from-primary-400 to-secondary-400 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-md">
-            <Image src="/strk-logo.svg" alt="STRK Logo" width={40} height={40} />
+          <div className="flex justify-center mb-6">
+            <Image src="/strk-logo.svg" alt="STRK Logo" width={80} height={80} />
           </div>
           
           <h3 className="text-2xl font-bold text-neutral-800 mb-3">Starknet Sepolia STRK Faucet</h3>
+          <p className="text-neutral-600 mb-6">5 STRK / 24 hrs</p>
 
           
           <button
@@ -91,7 +92,7 @@ export default function WalletConnection() {
                   <path
                     className="opacity-75"
                     fill="currentColor"
-                    d="M4 12a8 8 0 818-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    d="M4 12a8 8 0 818-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 814 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   />
                 </svg>
                 <span>Connecting...</span>
