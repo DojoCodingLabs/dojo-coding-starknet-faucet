@@ -14,8 +14,7 @@ export default function Header() {
               </svg>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">Fernet Branca Faucet</h1>
-              <p className="text-white/70 text-sm">Free Tokens on Starknet</p>
+              <h1 className="text-2xl font-bold text-white">Faucet</h1>
             </div>
           </div>
           
@@ -23,14 +22,6 @@ export default function Header() {
             <span className="px-4 py-2 bg-white/10 backdrop-blur-sm text-white/90 text-sm font-medium rounded-xl border border-white/20">
               🔗 Sepolia Testnet
             </span>
-            <a 
-              href="https://starknet.io" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="px-4 py-2 bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white text-sm font-medium rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              ⚡ Powered by Starknet
-            </a>
           </div>
         </div>
       </div>
