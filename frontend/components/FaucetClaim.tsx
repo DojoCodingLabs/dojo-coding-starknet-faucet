@@ -82,10 +82,28 @@ export default function FaucetClaim() {
       toast.success('Claim transaction submitted!')
       console.log('Transaction hash:', tx.transaction_hash)
       
-      // Reload faucet info after claim
+      // Immediately update the local state to reflect the new unlock time
+      if (faucetInfo.waitTime) {
+        const newUnlockTime = currentTime + Number(faucetInfo.waitTime)
+        setFaucetInfo(prev => prev ? {
+          ...prev,
+          userUnlockTime: BigInt(newUnlockTime)
+        } : null)
+      }
+      
+      // Reload faucet info after a short delay with retries
+      const reloadWithRetries = async (attempts = 0) => {
+        if (attempts < 5) {
+          await loadFaucetInfo()
+          // If the unlock time hasn't updated yet, try again
+          setTimeout(() => reloadWithRetries(attempts + 1), 2000)
+        }
+      }
+      
       setTimeout(() => {
-        loadFaucetInfo()
-      }, 3000)
+        reloadWithRetries()
+      }, 1000)
+      
     } catch (error) {
       console.error('Error claiming from faucet:', error)
       toast.error('Failed to claim tokens')
