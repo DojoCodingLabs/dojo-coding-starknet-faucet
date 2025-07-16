@@ -69,9 +69,7 @@ export default function WalletConnection() {
         </div>
         
         <h3 className="text-2xl font-bold text-gray-900 mb-3">Connect Your Wallet</h3>
-        <p className="text-gray-600 mb-8 text-lg leading-relaxed">
-          Connect your Starknet wallet to start protecting your savings from impulsive investments
-        </p>
+
         
         <button
           onClick={handleConnect}

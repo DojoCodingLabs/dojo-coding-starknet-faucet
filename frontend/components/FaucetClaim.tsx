@@ -9,12 +9,25 @@ import Image from 'next/image'
 
 export default function FaucetClaim() {
   const { account, address, isConnected } = useStarknet()
-  const [faucetInfo, setFaucetInfo] = useState<FaucetInfo | null>(null)
+  const [faucetInfo, setFaucetInfo] = useState<{
+    withdrawalAmount: bigint;
+    waitTime: bigint;
+    userUnlockTime: bigint;
+  } | null>(null)
   const [isClaiming, setIsClaiming] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [currentTime, setCurrentTime] = useState(Math.floor(Date.now() / 1000))
 
   // Create provider for read-only operations
   const provider = new RpcProvider({ nodeUrl: "https://starknet-sepolia.public.blastapi.io" })
+
+  // Update current time every second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(Math.floor(Date.now() / 1000))
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [])
 
   const loadFaucetInfo = async () => {
     if (!address) return
@@ -24,19 +37,15 @@ export default function FaucetClaim() {
       // Use provider for read operations
       const contract = new Contract(FAUCET_ABI, FAUCET_CONTRACT_ADDRESS, provider)
       
-      const [tokenAddress, withdrawalAmount, waitTime, faucetBalance, userUnlockTime] = await Promise.all([
-        contract.get_token_address(),
+      const [withdrawalAmount, waitTime, userUnlockTime] = await Promise.all([
         contract.get_withdrawal_amount(),
         contract.get_wait_time(),
-        contract.get_amount_faucet(),
         contract.get_user_unlock_time(address)
       ])
 
       setFaucetInfo({
-        tokenAddress: tokenAddress.toString(),
         withdrawalAmount: BigInt(withdrawalAmount.toString()),
         waitTime: BigInt(waitTime.toString()),
-        faucetBalance: BigInt(faucetBalance.toString()),
         userUnlockTime: BigInt(userUnlockTime.toString())
       })
     } catch (error) {
@@ -59,18 +68,9 @@ export default function FaucetClaim() {
     }
 
     // Check if user can claim
-    const currentTime = Math.floor(Date.now() / 1000)
     if (faucetInfo.userUnlockTime > 0 && Number(faucetInfo.userUnlockTime) > currentTime) {
       const timeRemaining = Number(faucetInfo.userUnlockTime) - currentTime
-      const hours = Math.floor(timeRemaining / 3600)
-      const minutes = Math.floor((timeRemaining % 3600) / 60)
-      toast.error(`You must wait ${hours}h ${minutes}m before claiming again`)
-      return
-    }
-
-    // Check if faucet has enough balance
-    if (faucetInfo.faucetBalance < faucetInfo.withdrawalAmount) {
-      toast.error('Faucet does not have enough balance')
+      toast.error(`You must wait before claiming again`)
       return
     }
 
@@ -103,26 +103,24 @@ export default function FaucetClaim() {
   if (!isConnected) {
     return (
       <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 p-8 text-center">
-        <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-          <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
-        </div>
-        <p className="text-gray-600 text-lg">Connect your wallet to claim tokens</p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Connect Your Wallet</h2>
+        <p className="text-gray-600">Please connect your wallet to use the faucet</p>
       </div>
     )
   }
 
   if (isLoading) {
     return (
-      <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 p-8 text-center">
-        <div className="animate-spin w-8 h-8 mx-auto mb-4">
-          <svg className="w-8 h-8 text-blue-500" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-          </svg>
+      <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 p-8">
+        <div className="flex items-center justify-center">
+          <div className="flex items-center space-x-2">
+            <svg className="w-8 h-8 text-blue-500" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 818-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 814 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+            </svg>
+            <span className="text-lg text-gray-600">Loading faucet information...</span>
+          </div>
         </div>
-        <p className="text-gray-600">Loading faucet information...</p>
       </div>
     )
   }
@@ -141,8 +139,7 @@ export default function FaucetClaim() {
     )
   }
 
-  const currentTime = Math.floor(Date.now() / 1000)
-  const canClaim = faucetInfo.userUnlockTime === BigInt(0) || Number(faucetInfo.userUnlockTime) <= currentTime
+  const canClaim = Number(faucetInfo.userUnlockTime) <= currentTime
   const timeRemaining = canClaim ? 0 : Number(faucetInfo.userUnlockTime) - currentTime
 
   const formatSTRK = (wei: bigint) => {
@@ -150,72 +147,85 @@ export default function FaucetClaim() {
   }
 
   const formatTimeRemaining = (seconds: number) => {
+    if (seconds <= 0) return "Ready to claim!"
+    
     const hours = Math.floor(seconds / 3600)
     const minutes = Math.floor((seconds % 3600) / 60)
-    return `${hours}h ${minutes}m`
+    const secs = seconds % 60
+    
+    if (hours > 0) {
+      return `${hours}h ${minutes}m ${secs}s`
+    } else if (minutes > 0) {
+      return `${minutes}m ${secs}s`
+    } else {
+      return `${secs}s`
+    }
   }
 
   return (
-    <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 overflow-hidden">
-      <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6">
-        <div className="flex items-center space-x-3 mb-2">
+    <div className="max-w-md mx-auto">
+      <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 overflow-hidden">
+        <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6">
+          <div className="flex items-center space-x-3 mb-2">
             <Image src="/strk-logo.svg" alt="STRK Logo" width={40} height={40} />
             <h2 className="text-2xl font-bold text-gray-900">STRK Faucet</h2>
           </div>
           <p className="text-gray-600">Claim free STRK tokens from the faucet</p>
-      </div>
-      
-      <div className="p-6 space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-gray-50 rounded-lg p-4">
-            <div className="flex items-center space-x-2 mb-1">
+        </div>
+        
+        <div className="p-6 space-y-4">
+          <div className="grid grid-cols-1 gap-4">
+            <div className="bg-gray-50 rounded-lg p-4">
+              <div className="flex items-center space-x-2 mb-1">
                 <Image src="/strk-logo.svg" alt="STRK" width={20} height={20} />
                 <p className="text-sm text-gray-600">Withdrawal Amount</p>
               </div>
-            <p className="text-lg font-semibold text-gray-900">{formatSTRK(faucetInfo.withdrawalAmount)} STRK</p>
-          </div>
-          <div className="bg-gray-50 rounded-lg p-4">
-            <div className="flex items-center space-x-2 mb-1">
-                <Image src="/strk-logo.svg" alt="STRK" width={20} height={20} />
-                <p className="text-sm text-gray-600">Faucet Balance</p>
+              <p className="text-lg font-semibold text-gray-900">{formatSTRK(faucetInfo.withdrawalAmount)} STRK</p>
+            </div>
+            <div className="bg-gray-50 rounded-lg p-4">
+              <div className="flex items-center space-x-2 mb-1">
+                <svg className="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-sm text-gray-600">Next Claim Available</p>
               </div>
-            <p className="text-lg font-semibold text-gray-900">{formatSTRK(faucetInfo.faucetBalance)} STRK</p>
-          </div>
-        </div>
-
-        {!canClaim && (
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-            <div className="flex items-center space-x-2">
-              <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <p className="text-yellow-800 font-medium">
-                Next claim available in: {formatTimeRemaining(timeRemaining)}
+              <p className={`text-lg font-semibold ${canClaim ? 'text-green-600' : 'text-orange-600'}`}>
+                {formatTimeRemaining(timeRemaining)}
               </p>
             </div>
           </div>
-        )}
 
-        <button
-          onClick={handleClaim}
-          disabled={isClaiming || !canClaim || faucetInfo.faucetBalance < faucetInfo.withdrawalAmount}
-          className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:transform-none disabled:hover:scale-100 shadow-lg hover:shadow-xl"
-        >
-          {isClaiming ? (
-            <div className="flex items-center justify-center space-x-2">
-              <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-              </svg>
-              <span>Claiming...</span>
-            </div>
-          ) : (
-            <div className="flex items-center justify-center space-x-2">
-              <Image src="/strk-logo.svg" alt="STRK" width={24} height={24} />
-              <span>Claim STRK Tokens</span>
+          <button
+            onClick={handleClaim}
+            disabled={isClaiming || !canClaim}
+            className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-200 ${
+              canClaim && !isClaiming
+                ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02]'
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            }`}
+          >
+            {isClaiming ? (
+              <div className="flex items-center justify-center space-x-2">
+                <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 818-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 814 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                <span>Claiming...</span>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center space-x-2">
+                <Image src="/strk-logo.svg" alt="STRK" width={24} height={24} />
+                <span>Claim STRK Tokens</span>
+              </div>
+            )}
+          </button>
+
+          {!canClaim && (
+            <div className="text-center text-sm text-gray-500">
+              <p>You must wait {formatTimeRemaining(timeRemaining)} before claiming again</p>
             </div>
           )}
-        </button>
+        </div>
       </div>
     </div>
   )
