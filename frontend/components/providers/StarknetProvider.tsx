@@ -43,12 +43,15 @@ export function StarknetProvider({ children }: { children: ReactNode }) {
   const handleDisconnect = async () => {
     try {
       await disconnect()
+    } catch (error) {
+      console.error('Failed to disconnect wallet:', error)
+      // Continue with cleanup even if disconnect fails
+    } finally {
+      // Always cleanup local state
       setAccount(null)
       setAddress(null)
       setIsConnected(false)
       console.log('Wallet disconnected')
-    } catch (error) {
-      console.error('Failed to disconnect wallet:', error)
     }
   }
 

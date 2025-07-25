@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useStarknet } from '@/components/providers/StarknetProvider'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
@@ -8,30 +8,45 @@ import Image from 'next/image'
 export default function WalletConnection() {
   const { address, isConnected, connect, disconnect } = useStarknet()
   const [isConnecting, setIsConnecting] = useState(false)
+  const [isDisconnecting, setIsDisconnecting] = useState(false)
+  const wasConnecting = useRef(false)
 
   const handleConnect = async () => {
     setIsConnecting(true)
+    wasConnecting.current = true
     try {
       await connect()
-      // Check if connection was successful after the connect call
-      setTimeout(() => {
-        if (isConnected) {
-          toast.success('Wallet connected successfully!')
-        } else {
-          toast.error('Failed to connect wallet')
-        }
-      }, 100) // Small delay to allow state to update
+      // Toast will be handled by useEffect when state changes
     } catch (error) {
       console.error('Failed to connect:', error)
       toast.error('Failed to connect wallet')
-    } finally {
       setIsConnecting(false)
+      wasConnecting.current = false
     }
   }
 
-  const handleDisconnect = () => {
-    disconnect()
-    toast.success('Wallet disconnected')
+  // Handle connection state changes
+  useEffect(() => {
+    if (wasConnecting.current) {
+      if (isConnected) {
+        toast.success('Wallet connected successfully!')
+        setIsConnecting(false)
+        wasConnecting.current = false
+      }
+    }
+  }, [isConnected])
+
+  const handleDisconnect = async () => {
+    setIsDisconnecting(true)
+    try {
+      await disconnect()
+      toast.success('Wallet disconnected')
+    } catch (error) {
+      console.error('Failed to disconnect:', error)
+      toast.error('Failed to disconnect wallet')
+    } finally {
+      setIsDisconnecting(false)
+    }
   }
 
   const formatAddress = (addr: string) => {
@@ -57,9 +72,20 @@ export default function WalletConnection() {
               </div>
               <button
                 onClick={handleDisconnect}
-                className="bg-white hover:bg-muted text-foreground font-semibold px-6 py-3 rounded-lg transition-colors border border-border hover:border-primary/20 shadow-sm"
+                disabled={isDisconnecting}
+                className="bg-white hover:bg-muted text-foreground font-semibold px-6 py-3 rounded-lg transition-colors border border-border hover:border-primary/20 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Disconnect
+                {isDisconnecting ? (
+                  <div className="flex items-center space-x-2">
+                    <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 818-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 814 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    <span>Disconnecting...</span>
+                  </div>
+                ) : (
+                  'Disconnect'
+                )}
               </button>
             </div>
           </div>

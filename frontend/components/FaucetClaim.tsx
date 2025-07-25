@@ -113,29 +113,43 @@ export default function FaucetClaim() {
   }
 
   useEffect(() => {
-    if (address) {
+    if (address && isConnected) {
       loadFaucetInfo()
+    } else {
+      // Reset state when wallet disconnects
+      setFaucetInfo(null)
+      setIsLoading(false)
+      setIsClaiming(false)
     }
-  }, [address])
+  }, [address, isConnected])
 
   if (!isConnected) {
     return (
-      <div className="card text-center">
-        <h2 className="card-title mb-4">Connect Your Wallet</h2>
+      <div className="max-w-md mx-auto">
+        <div className="card text-center">
+          <div className="card-padding">
+            <h2 className="card-title mb-4">Connect Your Wallet</h2>
+            <p className="text-muted-foreground">Please connect your Starknet wallet to claim STRK tokens</p>
+          </div>
+        </div>
       </div>
     )
   }
 
   if (isLoading) {
     return (
-      <div className="card">
-        <div className="flex items-center justify-center">
-          <div className="flex items-center space-x-2">
-            <svg className="w-8 h-8 text-primary animate-spin" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 818-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 814 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-            </svg>
-            <span className="body-text">Loading faucet information...</span>
+      <div className="max-w-md mx-auto">
+        <div className="card">
+          <div className="card-padding">
+            <div className="flex items-center justify-center">
+              <div className="flex items-center space-x-2">
+                <svg className="w-8 h-8 text-primary animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 818-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 814 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                <span className="body-text">Loading faucet information...</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -144,14 +158,18 @@ export default function FaucetClaim() {
 
   if (!faucetInfo) {
     return (
-      <div className="card text-center">
-        <p className="text-destructive mb-4">Failed to load faucet information</p>
-        <button 
-          onClick={loadFaucetInfo}
-          className="btn-primary focus-ring"
-        >
-          Retry
-        </button>
+      <div className="max-w-md mx-auto">
+        <div className="card text-center">
+          <div className="card-padding">
+            <p className="text-destructive mb-4">Failed to load faucet information</p>
+            <button 
+              onClick={loadFaucetInfo}
+              className="btn-primary focus-ring"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
       </div>
     )
   }

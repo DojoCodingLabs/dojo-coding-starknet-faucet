@@ -26,23 +26,40 @@ export default function RootLayout({
           </div>
           <Toaster 
             position="top-right"
+            containerStyle={{
+              top: 20,
+              right: 20,
+            }}
             toastOptions={{
-              duration: 4000,
+              duration: 3000,
               style: {
                 background: '#363636',
                 color: '#fff',
+                borderRadius: '12px',
+                padding: '16px',
+                fontSize: '14px',
+                maxWidth: '300px',
               },
               success: {
                 style: {
                   background: '#22c55e',
+                },
+                iconTheme: {
+                  primary: '#fff',
+                  secondary: '#22c55e',
                 },
               },
               error: {
                 style: {
                   background: '#ef4444',
                 },
+                iconTheme: {
+                  primary: '#fff',
+                  secondary: '#ef4444',
+                },
               },
             }}
+            gutter={8}
           />
         </StarknetProvider>
       </body>
