@@ -49,7 +49,7 @@ npm install
 ```bash
 # Add your account to sncast (replace with your account details)
 sncast account add --name account_dale \
-  --address 0x05543ed0560ed5e309a590c8f7f9d19453672cc2c917ffa2690f62670c0ffca2 \
+  --address 0x02e8a8551e8120fd8f6b0691dda637b83b86f68e515fbfd6e3f3e2117ee7c95a \
   --private_key YOUR_PRIVATE_KEY
 ```
 
@@ -66,7 +66,7 @@ NEXT_PUBLIC_RPC_URL=https://starknet-sepolia.public.blastapi.io
 sncast --account account_dale \
 declare \
 --url https://starknet-sepolia.public.blastapi.io/rpc/v0_8 \
---contract-name Faucet
+--contract-name DojoCodingFaucet
 ```
 
 **Save the class hash** from the output - you'll need it for deployment.
@@ -76,11 +76,11 @@ declare \
 sncast --account account_dale deploy \
 --url https://starknet-sepolia.public.blastapi.io/rpc/v0_8 \
 --class-hash YOUR_CLASS_HASH_HERE \
---arguments '0x05543ed0560ed5e309a590c8f7f9d19453672cc2c917ffa2690f62670c0ffca2,0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d,10000000000000000000_u256,86400_u64'
+--arguments '0x02e8a8551e8120fd8f6b0691dda637b83b86f68e515fbfd6e3f3e2117ee7c95a,0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d,10000000000000000000_u256,86400_u64'
 ```
 
 **Parameters Explanation:**
-- `0x05543...` - Owner address (your wallet)
+- `0x02e8a...` - Owner address (your wallet)
 - `0x04718...` - STRK token contract address on Sepolia
 - `10000000000000000000_u256` - Withdrawal amount (10 STRK)
 - `86400_u64` - Wait time between claims (24 hours)

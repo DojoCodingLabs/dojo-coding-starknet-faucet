@@ -13,7 +13,7 @@ This is the **Dojo Coding - Starknet STRK Testnet Faucet**, a modern community-d
 
 ### Smart Contract Layer (`/src/lib.cairo`)
 - **Language**: Cairo (Starknet's native language)
-- **Main Contract**: `Faucet` implementing `IFaucet` interface
+- **Main Contract**: `DojoCodingFaucet` implementing `IFaucet` interface
 - **Key Features**:
   - Rate limiting per user (configurable wait time)
   - Owner-controlled withdrawal amounts and wait times

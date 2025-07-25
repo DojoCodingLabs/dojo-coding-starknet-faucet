@@ -10,7 +10,7 @@ fn deploy_faucet(
     withdrawal_amount: u256,
     wait_time: u64
 ) -> ContractAddress {
-    let contract = declare("Faucet").unwrap().contract_class();
+    let contract = declare("DojoCodingFaucet").unwrap().contract_class();
     let constructor_calldata = array![
         owner.into(),
         token_address.into(),

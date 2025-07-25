@@ -14,7 +14,7 @@ pub trait IFaucet<TContractState> {
 }
 
 #[starknet::contract]
-mod Faucet {
+mod DojoCodingFaucet {
     use super::IFaucet;
     use starknet::{
         ContractAddress, get_block_timestamp, get_caller_address, get_contract_address,

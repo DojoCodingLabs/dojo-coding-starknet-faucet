@@ -8,7 +8,7 @@
 ## Deployment Parameters
 Based on the current configuration, the new contract should be deployed with:
 
-- **Owner Address**: `0x05543ed0560ed5e309a590c8f7f9d19453672cc2c917ffa2690f62670c0ffca2`
+- **Owner Address**: `0x02e8a8551e8120fd8f6b0691dda637b83b86f68e515fbfd6e3f3e2117ee7c95a`
 - **Token Address**: `0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d` (STRK)
 - **Withdrawal Amount**: `10000000000000000000` (10 STRK)
 - **Wait Time**: `86400` (24 hours)
@@ -20,7 +20,7 @@ Based on the current configuration, the new contract should be deployed with:
 sncast --account account_dale \
 declare \
 --url https://starknet-sepolia.public.blastapi.io/rpc/v0_8 \
---contract-name Faucet
+--contract-name DojoCodingFaucet
 ```
 
 ### 2. Deploy the Contract
@@ -28,7 +28,7 @@ declare \
 sncast --account account_dale deploy \
 --url https://starknet-sepolia.public.blastapi.io/rpc/v0_8 \
 --class-hash [CLASS_HASH_FROM_DECLARE] \
---arguments '0x05543ed0560ed5e309a590c8f7f9d19453672cc2c917ffa2690f62670c0ffca2,0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d,10000000000000000000_u256,86400_u64'
+--arguments '0x02e8a8551e8120fd8f6b0691dda637b83b86f68e515fbfd6e3f3e2117ee7c95a,0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d,10000000000000000000_u256,86400_u64'
 ```
 
 ## Post-Deployment Steps
