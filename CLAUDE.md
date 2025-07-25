@@ -68,7 +68,7 @@ npm run lint
 
 - **Contract ABI**: `frontend/lib/contract.ts` - Contains contract address and ABI definitions
 - **Starknet Provider**: Uses `https://starknet-sepolia.public.blastapi.io` for RPC calls
-- **Contract Address**: Currently deployed at `0x06ee9dd3a4cc33d35dd172495075f8787b8876eaaa221d664ba8793066b59a12`
+- **Contract Address**: Currently deployed at `0x0001f07b33f7edb78370900521190fe057672174ec15a29f666f34f5edfc5350`
 - **Design System**: `frontend/app/globals.css` - Dojo Coding design tokens and CSS variables
 - **Tailwind Config**: `frontend/tailwind.config.js` - Custom color palette and brand colors
 
