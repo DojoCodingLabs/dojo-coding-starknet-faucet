@@ -10,6 +10,11 @@ export const metadata: Metadata = {
   title: 'Dojo Coding - Starknet STRK Testnet Faucet',
   description: 'Get free STRK tokens for Starknet Sepolia testnet development. Built by Dojo Coding for the developer community.',
   keywords: ['Dojo Coding', 'Starknet', 'STRK', 'Faucet', 'Sepolia', 'Testnet', 'Blockchain', 'Cairo'],
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
 }
 
 export default function RootLayout({
