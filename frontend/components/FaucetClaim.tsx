@@ -120,22 +120,22 @@ export default function FaucetClaim() {
 
   if (!isConnected) {
     return (
-      <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-white/60 p-8 text-center">
-        <h2 className="text-2xl font-bold text-neutral-800 mb-4">Connect Your Wallet</h2>
+      <div className="card text-center">
+        <h2 className="card-title mb-4">Connect Your Wallet</h2>
       </div>
     )
   }
 
   if (isLoading) {
     return (
-      <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-white/60 p-8">
+      <div className="card">
         <div className="flex items-center justify-center">
           <div className="flex items-center space-x-2">
-            <svg className="w-8 h-8 text-primary-500" fill="none" viewBox="0 0 24 24">
+            <svg className="w-8 h-8 text-primary animate-spin" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 818-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 814 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
             </svg>
-            <span className="text-lg text-neutral-600">Loading faucet information...</span>
+            <span className="body-text">Loading faucet information...</span>
           </div>
         </div>
       </div>
@@ -144,11 +144,11 @@ export default function FaucetClaim() {
 
   if (!faucetInfo) {
     return (
-      <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-white/60 p-8 text-center">
-        <p className="text-red-500">Failed to load faucet information</p>
+      <div className="card text-center">
+        <p className="text-destructive mb-4">Failed to load faucet information</p>
         <button 
           onClick={loadFaucetInfo}
-          className="mt-4 bg-primary-500 hover:bg-primary-600 text-white font-semibold px-4 py-2 rounded-lg"
+          className="btn-primary focus-ring"
         >
           Retry
         </button>
@@ -187,32 +187,32 @@ export default function FaucetClaim() {
 
   return (
     <div className="max-w-md mx-auto">
-      <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-white/60 overflow-hidden">
-        <div className="bg-gradient-to-r from-soft-blue to-soft-purple p-6">
+      <div className="card overflow-hidden">
+        <div className="card-padding" style={{background: 'var(--gradient-primary)'}}>
           <div className="flex items-center space-x-3 mb-2">
             <Image src="/strk-logo.svg" alt="STRK Logo" width={40} height={40} />
-            <h2 className="text-2xl font-bold text-neutral-800">STRK Faucet</h2>
+            <h2 className="card-title text-white">Dojo STRK Faucet</h2>
           </div>
-          <p className="text-neutral-600">Claim free STRK tokens from the faucet</p>
+          <p className="text-white/90 text-sm">Claim free STRK tokens from the community faucet</p>
         </div>
         
-        <div className="p-6 space-y-4">
+        <div className="card-padding space-y-4">
           <div className="grid grid-cols-1 gap-4">
-            <div className="bg-neutral-50 rounded-lg p-4">
+            <div className="bg-muted rounded-lg p-4">
               <div className="flex items-center space-x-2 mb-1">
                 <Image src="/strk-logo.svg" alt="STRK" width={20} height={20} />
-                <p className="text-sm text-neutral-600">Withdrawal Amount</p>
+                <p className="text-sm text-muted-foreground">Withdrawal Amount</p>
               </div>
-              <p className="text-lg font-semibold text-neutral-800">{formatSTRK(faucetInfo.withdrawalAmount)} STRK</p>
+              <p className="text-lg font-semibold text-foreground">{formatSTRK(faucetInfo.withdrawalAmount)} STRK</p>
             </div>
-            <div className="bg-neutral-50 rounded-lg p-4">
+            <div className="bg-muted rounded-lg p-4">
               <div className="flex items-center space-x-2 mb-1">
-                <svg className="w-5 h-5 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="icon-accent w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <p className="text-sm text-neutral-600">Next Claim Available</p>
+                <p className="text-sm text-muted-foreground">Next Claim Available</p>
               </div>
-              <p className={`text-lg font-semibold ${canClaim ? 'text-accent-600' : 'text-orange-600'}`}>
+              <p className={`text-lg font-semibold ${canClaim ? 'text-primary' : 'text-destructive'}`}>
                 {formatTimeRemaining(timeRemaining)}
               </p>
             </div>
@@ -221,10 +221,10 @@ export default function FaucetClaim() {
           <button
             onClick={handleClaim}
             disabled={isClaiming || !canClaim}
-            className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-200 ${
+            className={`w-full focus-ring ${
               canClaim && !isClaiming
-                ? 'bg-gradient-to-r from-primary-400 to-secondary-400 hover:from-primary-500 hover:to-secondary-500 text-white shadow-md hover:shadow-lg transform hover:scale-[1.02]'
-                : 'bg-neutral-200 text-neutral-500 cursor-not-allowed'
+                ? 'btn-primary'
+                : 'bg-muted text-muted-foreground cursor-not-allowed pointer-events-none'
             }`}
           >
             {isClaiming ? (
@@ -244,7 +244,7 @@ export default function FaucetClaim() {
           </button>
 
           {!canClaim && (
-            <div className="text-center text-sm text-neutral-500">
+            <div className="text-center text-sm text-muted-foreground">
               <p>You must wait {formatTimeRemaining(timeRemaining)} before claiming again</p>
             </div>
           )}

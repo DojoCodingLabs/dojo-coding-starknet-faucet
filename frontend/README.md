@@ -1,17 +1,19 @@
-# Fernet Branca Token Faucet
+# Dojo Coding - Starknet STRK Testnet Faucet
 
-Un faucet simple y elegante para distribuir tokens Fernet Branca en la red Starknet.
+A modern, elegant faucet for distributing STRK tokens on Starknet Sepolia testnet. Built by the Dojo Coding community.
 
-## 🚀 Características
+## 🚀 Features
 
-- **Interfaz Simple**: Un botón para conectar wallet y otro para hacer claim
-- **Control de Tiempo**: Rate limiting incorporado para evitar spam
-- **Starknet Nativo**: Construido específicamente para Starknet Sepolia
-- **Responsive**: Funciona perfectamente en desktop y mobile
+- **Simple Interface**: One-click wallet connection and token claiming
+- **Rate Limiting**: Built-in 24-hour cooldown to prevent abuse
+- **Starknet Native**: Built specifically for Starknet Sepolia testnet
+- **Responsive Design**: Works perfectly on desktop and mobile
+- **Dojo Coding Design System**: Modern, accessible UI components
 
-## 🛠 Tecnologías
+## 🛠 Technologies
 
 - **Frontend**: Next.js 14, React, TypeScript, TailwindCSS
+- **Design System**: Dojo Coding design tokens and components
 - **Blockchain**: Cairo, Starknet
 - **Wallet Integration**: StarknetKit, get-starknet
 

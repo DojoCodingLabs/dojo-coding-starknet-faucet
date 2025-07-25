@@ -3,110 +3,137 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Dojo Coding Design System Colors */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --destructive: 0 84.2% 60.2%;
+    --border: 214.3 31.8% 91.4%;
+    
+    /* Dojo Brand Colors */
+    --dojo-yellow: 52 100% 76%;
+    --dojo-coral: 10 100% 76%;
+    --dojo-purple: 281 100% 75%;
+    --dojo-blue: 190 89% 78%;
+    --dojo-green: 145 100% 85%;
+    --dojo-light-blue: 187 92% 85%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(52 100% 76%), hsl(10 100% 76%), hsl(281 100% 75%));
+    --gradient-secondary: linear-gradient(135deg, hsl(52 100% 76%), hsl(281 100% 75%), hsl(190 89% 78%));
+    --gradient-accent: linear-gradient(135deg, hsl(10 100% 76%), hsl(145 100% 85%), hsl(281 100% 75%));
+    --gradient-hero: linear-gradient(135deg, hsl(52 100% 76%), hsl(10 100% 76%), hsl(187 92% 85%));
+  }
+  
+  * {
+    @apply border-border;
+  }
+  
   html {
     font-family: 'Inter', system-ui, sans-serif;
   }
   
   body {
-    @apply bg-gradient-light text-neutral-800 min-h-screen;
+    @apply bg-background text-foreground min-h-screen;
   }
 }
 
 @layer components {
+  /* Dojo Coding Design System Components */
   .card {
-    @apply bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-white/60 p-6;
+    @apply rounded-lg border bg-white text-foreground shadow-sm p-6;
+  }
+  
+  .card-gradient {
+    @apply border-2 border-transparent;
+    background: var(--gradient-accent);
   }
   
   .btn-primary {
-    @apply bg-gradient-to-r from-primary-400 to-secondary-400 hover:from-primary-500 hover:to-secondary-500 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
+    @apply text-lg px-8 py-6 font-semibold rounded-lg transition-colors;
+    background: var(--gradient-primary);
+    border: none;
+    color: white;
   }
   
-  .btn-secondary {
-    @apply bg-white/95 hover:bg-white text-neutral-700 font-semibold py-3 px-6 rounded-xl transition-all duration-300 border border-neutral-200 hover:border-neutral-300 shadow-sm hover:shadow-md;
+  .btn-primary:hover {
+    opacity: 0.9;
   }
   
-  .input-field {
-    @apply block w-full px-4 py-3 border border-neutral-300 rounded-xl shadow-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-primary-400 transition-all duration-200 bg-white/90;
+  .btn-primary:disabled {
+    @apply pointer-events-none opacity-50;
   }
   
   .gradient-text {
-    @apply bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 bg-clip-text text-transparent;
+    background: var(--gradient-primary);
+    @apply bg-clip-text text-transparent;
   }
   
-  .status-badge {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  .hero-title {
+    @apply text-4xl md:text-6xl font-bold tracking-tight;
   }
   
-  .status-locked {
-    @apply bg-neutral-100 text-neutral-700;
+  .section-heading {
+    @apply text-3xl md:text-4xl font-bold;
   }
   
-  .status-ready {
-    @apply bg-soft-yellow text-yellow-700;
+  .card-title {
+    @apply text-2xl font-semibold leading-none tracking-tight;
   }
   
-  .status-unlocked {
-    @apply bg-soft-green text-green-700;
+  .subtitle {
+    @apply text-2xl md:text-3xl text-muted-foreground font-normal;
   }
   
-  .card-hover {
-    @apply transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl;
+  .body-text {
+    @apply text-lg text-muted-foreground;
   }
   
-  .loading-spinner {
-    @apply animate-spin rounded-full border-4 border-neutral-200 border-t-primary-500;
+  .badge-primary {
+    background: var(--gradient-primary);
+    @apply text-white border-0 rounded-full px-3 py-1 text-sm font-medium;
   }
   
-  .feature-icon {
-    @apply w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-300;
+  .icon-accent {
+    @apply text-primary h-8 w-8;
   }
   
-  .nav-tab {
-    @apply px-8 py-4 font-semibold transition-all duration-300 rounded-t-xl;
+  .icon-large {
+    @apply h-16 w-16;
   }
   
-  .nav-tab-active {
-    @apply text-primary-600 bg-gradient-to-r from-soft-blue to-soft-purple border-b-2 border-primary-500 shadow-sm;
+  .container-dojo {
+    @apply max-w-container mx-auto px-8;
   }
   
-  .nav-tab-inactive {
-    @apply text-neutral-500 hover:text-neutral-700 hover:bg-neutral-50/80;
+  .section-padding {
+    @apply py-24;
   }
   
-  /* Glass morphism effects with lighter colors */
-  .glass {
-    @apply bg-white/20 backdrop-blur-lg border border-white/40;
+  .card-padding {
+    @apply p-6;
   }
   
-  .glass-card {
-    @apply bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-white/50;
+  .item-gap {
+    @apply gap-6;
   }
   
-  /* Light gradient backgrounds */
-  .gradient-bg-primary {
-    @apply bg-gradient-to-r from-primary-300 to-secondary-300;
+  .text-spacing {
+    @apply space-y-1.5;
   }
   
-  .gradient-bg-secondary {
-    @apply bg-gradient-to-r from-accent-300 to-primary-300;
-  }
-  
-  .gradient-bg-warning {
-    @apply bg-gradient-to-r from-yellow-300 to-orange-300;
-  }
-  
-  .gradient-bg-success {
-    @apply bg-gradient-to-r from-accent-300 to-accent-400;
+  /* Focus management */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
   }
   
   /* Animation classes */
   .float {
     animation: float 6s ease-in-out infinite;
-  }
-  
-  .float-delayed {
-    animation: float 6s ease-in-out infinite;
-    animation-delay: -3s;
   }
   
   @keyframes float {
@@ -118,17 +145,9 @@
     }
   }
   
-  /* Improved scrollbar for webkit browsers */
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-neutral-100 rounded-lg;
-  }
-  
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-neutral-300 rounded-lg hover:bg-neutral-400;
+  /* Transitions */
+  .transition-dojo {
+    @apply transition-colors hover:opacity-90;
   }
 }
 

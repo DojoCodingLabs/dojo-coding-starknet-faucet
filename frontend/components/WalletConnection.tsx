@@ -13,7 +13,14 @@ export default function WalletConnection() {
     setIsConnecting(true)
     try {
       await connect()
-      toast.success('Wallet connected successfully!')
+      // Check if connection was successful after the connect call
+      setTimeout(() => {
+        if (isConnected) {
+          toast.success('Wallet connected successfully!')
+        } else {
+          toast.error('Failed to connect wallet')
+        }
+      }, 100) // Small delay to allow state to update
     } catch (error) {
       console.error('Failed to connect:', error)
       toast.error('Failed to connect wallet')
@@ -34,23 +41,23 @@ export default function WalletConnection() {
   if (isConnected && address) {
     return (
       <div className="max-w-md mx-auto">
-        <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-white/60 overflow-hidden">
-          <div className="bg-gradient-to-r from-soft-green to-accent-100 p-6">
+        <div className="card">
+          <div className="card-padding" style={{background: 'var(--gradient-secondary)'}}>
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <div className="w-14 h-14 bg-gradient-to-r from-accent-400 to-accent-500 rounded-2xl flex items-center justify-center shadow-md">
+                <div className="w-14 h-14 rounded-lg flex items-center justify-center shadow-md" style={{background: 'var(--gradient-accent)'}}>
                   <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <div>
-                  <p className="text-sm font-medium text-accent-600 mb-1">✓ Wallet Connected</p>
-                  <p className="text-lg font-bold text-neutral-800">{formatAddress(address)}</p>
+                <div className="text-spacing">
+                  <p className="text-sm font-medium text-primary mb-1">✓ Wallet Connected</p>
+                  <p className="text-lg font-bold text-foreground">{formatAddress(address)}</p>
                 </div>
               </div>
               <button
                 onClick={handleDisconnect}
-                className="bg-white hover:bg-neutral-50 text-neutral-700 font-semibold px-6 py-3 rounded-xl transition-all duration-300 border border-neutral-200 hover:border-neutral-300 shadow-sm hover:shadow-md"
+                className="bg-white hover:bg-muted text-foreground font-semibold px-6 py-3 rounded-lg transition-colors border border-border hover:border-primary/20 shadow-sm"
               >
                 Disconnect
               </button>
@@ -63,20 +70,20 @@ export default function WalletConnection() {
 
   return (
     <div className="max-w-md mx-auto">
-      <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-white/60 overflow-hidden">
-        <div className="p-8 text-center">
+      <div className="card">
+        <div className="card-padding text-center">
           <div className="flex justify-center mb-6">
             <Image src="/strk-logo.svg" alt="STRK Logo" width={80} height={80} />
           </div>
           
-          <h3 className="text-2xl font-bold text-neutral-800 mb-3">Starknet Sepolia STRK Faucet</h3>
-          <p className="text-neutral-600 mb-6">10 STRK / 24 hrs</p>
+          <h3 className="card-title mb-3">Dojo Coding STRK Faucet</h3>
+          <p className="body-text mb-6">10 STRK tokens every 24 hours</p>
 
           
           <button
             onClick={handleConnect}
             disabled={isConnecting}
-            className="w-full bg-gradient-to-r from-primary-400 to-secondary-400 hover:from-primary-500 hover:to-secondary-500 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-lg"
+            className="w-full btn-primary focus-ring"
           >
             {isConnecting ? (
               <div className="flex items-center justify-center space-x-3">

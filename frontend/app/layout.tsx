@@ -7,9 +7,9 @@ import { Toaster } from 'react-hot-toast'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Faucet Starknet',
-  description: 'Faucet for Starknet Sepolia',
-  keywords: ['Starknet', 'Faucet', 'Sepolia'],
+  title: 'Dojo Coding - Starknet STRK Testnet Faucet',
+  description: 'Get free STRK tokens for Starknet Sepolia testnet development. Built by Dojo Coding for the developer community.',
+  keywords: ['Dojo Coding', 'Starknet', 'STRK', 'Faucet', 'Sepolia', 'Testnet', 'Blockchain', 'Cairo'],
 }
 
 export default function RootLayout({
