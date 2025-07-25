@@ -10,9 +10,13 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-lg flex items-center justify-center shadow-md" style={{background: 'var(--gradient-primary)'}}>
-                <span className="text-white font-bold text-xl">D</span>
-              </div>
+              <Image 
+                src="/dojo-logo.png" 
+                alt="Dojo Logo" 
+                width={48} 
+                height={48}
+                className="rounded-lg shadow-md"
+              />
               <div className="text-spacing">
                 <h1 className="card-title gradient-text">Dojo Coding</h1>
                 <p className="text-sm text-muted-foreground">Starknet STRK Testnet Faucet</p>
