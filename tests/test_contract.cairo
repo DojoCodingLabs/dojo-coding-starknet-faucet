@@ -2,7 +2,7 @@ use starknet::{ContractAddress, contract_address_const};
 use snforge_std::{declare, ContractClassTrait, DeclareResultTrait, start_cheat_caller_address, stop_cheat_caller_address};
 
 // Note: The dispatcher will be generated automatically by the interface
-use faucet::{IFaucetDispatcher, IFaucetDispatcherTrait};
+use dojo_coding_faucet::{IFaucetDispatcher, IFaucetDispatcherTrait};
 
 fn deploy_faucet(
     owner: ContractAddress,

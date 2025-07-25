@@ -1,5 +1,5 @@
 [package]
-name = "faucet"
+name = "dojo_coding_faucet"
 version = "0.1.0"
 edition = "2024_07"
 

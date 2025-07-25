@@ -2,7 +2,7 @@
 version = 1
 
 [[package]]
-name = "faucet"
+name = "dojo_coding_faucet"
 version = "0.1.0"
 dependencies = [
  "openzeppelin",
